@@ -200,7 +200,7 @@ function initProjectCards() {
     
     // GitHub repository URLs (placeholders)
     const projectUrls = {
-        '1': 'https://github.com/unoanirban/project1',
+        '1': 'https://github.com/unoanirban/pose_detection_python',
         '2': 'https://github.com/unoanirban/project2',
         '3': 'https://github.com/unoanirban/project3',
         '4': 'https://github.com/unoanirban/project4'
