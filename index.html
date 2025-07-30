@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>unoanirban - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'neon-pink': '#ff0080',
+                        'neon-purple': '#8000ff',
+                        'glass-bg': 'rgba(255, 255, 255, 0.1)',
+                        'glass-border': 'rgba(255, 255, 255, 0.2)',
+                    },
+                    backdropBlur: {
+                        'xs': '2px',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="dark bg-gray-900 text-white transition-all duration-500">
+    <!-- Sticky Frosted-Glass Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-glass-bg border-b border-glass-border">
+        <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
+            <!-- Logo and Title -->
+            <div class="flex items-center space-x-3">
+                <img src="C:\Users\soupt\OneDrive\Desktop\portfolio_website\profile_pic.jpeg" alt="Logo" class="w-10 h-10 rounded-full object-cover ring-2 ring-neon-pink dark:ring-white">
+                <h1 class="text-xl font-bold bg-gradient-to-r from-neon-pink to-neon-purple bg-clip-text text-transparent">
+                    unoanirban
+                </h1>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#home" class="nav-link hover:text-neon-pink transition-colors duration-300">Home</a>
+                <a href="#skills" class="nav-link hover:text-neon-pink transition-colors duration-300">Skills</a>
+                <a href="#portfolio" class="nav-link hover:text-neon-pink transition-colors duration-300">Portfolio</a>
+                <a href="#services" class="nav-link hover:text-neon-pink transition-colors duration-300">Services</a>
+                <a href="#about" class="nav-link hover:text-neon-pink transition-colors duration-300">About</a>
+                <a href="#contact" class="nav-link hover:text-neon-pink transition-colors duration-300">Contact</a>
+            </div>
+
+            <!-- Dark/Light Toggle -->
+            <button id="theme-toggle" class="p-2 rounded-full bg-glass-bg border border-glass-border hover:bg-neon-pink hover:bg-opacity-20 transition-all duration-300">
+                <svg id="theme-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                </svg>
+            </button>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden p-2 rounded-full bg-glass-bg border border-glass-border">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-glass-bg backdrop-blur-md border-t border-glass-border">
+            <div class="px-6 py-4 space-y-4">
+                <a href="#home" class="block nav-link hover:text-neon-pink transition-colors duration-300">Home</a>
+                <a href="#skills" class="block nav-link hover:text-neon-pink transition-colors duration-300">Skills</a>
+                <a href="#portfolio" class="block nav-link hover:text-neon-pink transition-colors duration-300">Portfolio</a>
+                <a href="#services" class="block nav-link hover:text-neon-pink transition-colors duration-300">Services</a>
+                <a href="#about" class="block nav-link hover:text-neon-pink transition-colors duration-300">About</a>
+                <a href="#contact" class="block nav-link hover:text-neon-pink transition-colors duration-300">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Section 1: Home -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20 px-6">
+        <div class="container mx-auto text-center">
+            <!-- Profile Image -->
+            <div class="mb-8 animate-float">
+                <img src="C:\Users\soupt\OneDrive\Desktop\portfolio_website\profile_pic.jpeg" alt="Anirban Midya" class="w-48 h-48 mx-auto rounded-full object-cover ring-4 ring-neon-pink dark:ring-white shadow-2xl shadow-neon-pink/30 group-hover:shadow-2xl group-hover:shadow-neon-purple/30 transition-shadow duration-300">
+            </div>
+
+            <!-- Greeting Message -->
+            <div class="mb-8">
+                <h2 class="text-2xl md:text-3xl mb-2 opacity-80">Hello, It's me</h2>
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-neon-pink to-neon-purple bg-clip-text text-transparent">
+                    Anirban Midya
+                </h1>
+                <div class="text-xl md:text-2xl mb-6">
+                    <span>I am a </span>
+                    <span id="rotating-text" class="text-neon-pink font-semibold"></span>
+                    <span class="animate-pulse">|</span>
+                </div>
+            </div>
+
+            <!-- About Paragraph -->
+            <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 opacity-90 leading-relaxed">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+            </p>
+
+            <!-- Download Resume Button -->
+            <button id="download-resume" class="glass-button group relative overflow-hidden px-8 py-4 rounded-full bg-gradient-to-r from-neon-pink to-neon-purple text-white font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-neon-pink/50">
+                <span class="relative z-10 flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <span>Download Resume</span>
+                </span>
+                <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+            </button>
+        </div>
+    </section>
+
+    <!-- Section 2: Skills -->
+    <section id="skills" class="py-20 px-6">
+        <div class="container mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-neon-pink to-neon-purple bg-clip-text text-transparent">
+                Skills
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Technical Skills Widget -->
+                <div class="skill-widget glass-card p-8 rounded-2xl cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-neon-pink/30" data-skill="technical">
+                    <h3 class="text-2xl font-bold mb-4 text-center">Technical Skills</h3>
+                    <div class="skill-content hidden">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="skill-card">Robotics</div>
+                            <div class="skill-card">ROS</div>
+                            <div class="skill-card">IoT</div>
+                            <div class="skill-card">Embedded Systems</div>
+                            <div class="skill-card">Python</div>
+                            <div class="skill-card">Machine Learning</div>
+                            <div class="skill-card">Deep Learning</div>
+                            <div class="skill-card">PCB Design</div>
+                            <div class="skill-card">Wireless Communication</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Professional Skills Widget -->
+                <div class="skill-widget glass-card p-8 rounded-2xl cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-neon-purple/30" data-skill="professional">
+                    <h3 class="text-2xl font-bold mb-4 text-center">Professional Skills</h3>
+                    <div class="skill-content hidden">
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="skill-card">Communication</div>
+                            <div class="skill-card">Analytical Thinking</div>
+                            <div class="skill-card">Team Work</div>
+                            <div class="skill-card">Leadership</div>
+                            <div class="skill-card">Emotional Intelligence</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Portfolio -->
+    <section id="portfolio" class="py-20 px-6">
+        <div class="container mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-neon-pink to-neon-purple bg-clip-text text-transparent">
+                Portfolio
+            </h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+                <!-- Project Cards -->
+                <div class="project-card glass-card p-6 rounded-2xl cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-neon-pink/30" data-project="1">
+                    <h3 class="text-xl font-bold mb-4 text-center">Project 1</h3>
+                    <div class="project-description hidden">
+                        <p class="text-sm opacity-80 mb-4">An innovative robotics project focusing on autonomous navigation and obstacle avoidance.</p>
+                    </div>
+                </div>
+
+                <div class="project-card glass-card p-6 rounded-2xl cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-neon-purple/30" data-project="2">
+                    <h3 class="text-xl font-bold mb-4 text-center">Project 2</h3>
+                    <div class="project-description hidden">
+                        <p class="text-sm opacity-80 mb-4">IoT-based smart home automation system with machine learning integration.</p>
+                    </div>
+                </div>
+
+                <div class="project-card glass-card p-6 rounded-2xl cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-neon-pink/30" data-project="3">
+                    <h3 class="text-xl font-bold mb-4 text-center">Project 3</h3>
+                    <div class="project-description hidden">
+                        <p class="text-sm opacity-80 mb-4">Deep learning model for computer vision applications in robotics.</p>
+                    </div>
+                </div>
+
+                <div class="project-card glass-card p-6 rounded-2xl cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-neon-purple/30" data-project="4">
+                    <h3 class="text-xl font-bold mb-4 text-center">Project 4</h3>
+                    <div class="project-description hidden">
+                        <p class="text-sm opacity-80 mb-4">Custom PCB design for wireless communication in embedded systems.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Services -->
+    <section id="services" class="py-20 px-6">
+        <div class="container mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-neon-pink to-neon-purple bg-clip-text text-transparent">
+                Services
+            </h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+                <!-- Service Cards -->
+                <div class="service-card glass-card p-6 rounded-2xl cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-neon-pink/30" data-service="robotics">
+                    <h3 class="text-xl font-bold mb-4 text-center">Robotics</h3>
+                    <p class="text-sm opacity-80 text-center">Advanced robotics solutions and autonomous systems development.</p>
+                    <div class="service-video hidden">
+                        <video class="w-full rounded-lg" autoplay loop muted>
+                            <source src="robotics.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+
+                <div class="service-card glass-card p-6 rounded-2xl cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-neon-purple/30" data-service="iot">
+                    <h3 class="text-xl font-bold mb-4 text-center">Embedded Systems & IoT</h3>
+                    <p class="text-sm opacity-80 text-center">Smart IoT solutions and embedded system design.</p>
+                    <div class="service-video hidden">
+                        <video class="w-full rounded-lg" autoplay loop muted>
+                            <source src="iot.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+
+                <div class="service-card glass-card p-6 rounded-2xl cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-neon-pink/30" data-service="ml">
+                    <h3 class="text-xl font-bold mb-4 text-center">Machine Learning</h3>
+                    <p class="text-sm opacity-80 text-center">AI and machine learning model development and deployment.</p>
+                    <div class="service-video hidden">
+                        <video class="w-full rounded-lg" autoplay loop muted>
+                            <source src="C:\Users\soupt\OneDrive\Desktop\portfolio_website\video.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+
+                <div class="service-card glass-card p-6 rounded-2xl cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-neon-purple/30" data-service="pcb">
+                    <h3 class="text-xl font-bold mb-4 text-center">PCB Design</h3>
+                    <p class="text-sm opacity-80 text-center">Custom PCB design and electronic circuit development.</p>
+                    <div class="service-video hidden">
+                        <video class="w-full rounded-lg" autoplay loop muted>
+                            <source src="C:\Users\soupt\OneDrive\Desktop\portfolio_website\video.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: About -->
+    <section id="about" class="py-20 px-6">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-neon-pink to-neon-purple bg-clip-text text-transparent">
+                About Me
+            </h2>
+
+
+            <!-- About Paragraph -->
+            <p class="text-lg md:text-xl text-center mb-16 opacity-90 leading-relaxed">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.
+            </p>
+
+            <!-- Education Section -->
+            <div class="mb-12">
+                <h3 class="text-3xl font-bold text-center mb-8 text-neon-pink">Education</h3>
+                
+                <div class="space-y-6">
+                    <!-- Graduation -->
+                    <div class="glass-card p-6 rounded-2xl">
+                        <h4 class="text-xl font-bold mb-2">Graduation</h4>
+                        <p class="text-lg opacity-90">Brainware University, B.Tech in Robotics & Automation Engineering</p>
+                        <p class="text-sm opacity-70">2022-2026</p>
+                    </div>
+
+                    <!-- Higher Secondary -->
+                    <div class="glass-card p-6 rounded-2xl">
+                        <h4 class="text-xl font-bold mb-2">Higher Secondary</h4>
+                        <p class="text-lg opacity-90">Vidyasagar Vidyapith Boys, WBCHSE</p>
+                        <p class="text-sm opacity-70">2020-2022</p>
+                    </div>
+
+                    <!-- Secondary -->
+                    <div class="glass-card p-6 rounded-2xl">
+                        <h4 class="text-xl font-bold mb-2">Secondary</h4>
+                        <p class="text-lg opacity-90">Noygram High School, WBBSE</p>
+                        <p class="text-sm opacity-70">2014-2020</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Contact -->
+    <section id="contact" class="py-20 px-6">
+        <div class="container mx-auto max-w-2xl">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-neon-pink to-neon-purple bg-clip-text text-transparent">
+                Let's Connect
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Email Widget -->
+                <a href="mailto:anirbanmidya12@gmail.com" class="glass-card p-8 rounded-2xl text-center cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-neon-pink/30 group">
+                    <div class="mb-4">
+                        <svg class="w-12 h-12 mx-auto text-neon-pink group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Email</h3>
+                    <p class="text-sm opacity-80">anirbanmidya12@gmail.com</p>
+                </a>
+
+                <!-- Schedule Meeting Widget -->
+                <a href="https://cal.com/unoanirban/15min" target="_blank" class="glass-card p-8 rounded-2xl text-center cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-neon-purple/30 group">
+                    <div class="mb-4">
+                        <svg class="w-12 h-12 mx-auto text-neon-purple group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Schedule a Meeting</h3>
+                    <p class="text-sm opacity-80">Book a 15-minute call</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4 px-4 border-t border-glass-border">
+        <div class="container mx-auto text-center">
+            <!-- Social Media Icons -->
+            <div class="flex justify-center space-x-6 mb-6">
+                <a href="https://github.com/unoanirban" target="_blank" class="social-icon p-3 rounded-full bg-glass-bg border border-glass-border hover:bg-neon-pink hover:bg-opacity-20 transition-all duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="https://linkedin.com/in/unoanirban" target="_blank" class="social-icon p-3 rounded-full bg-glass-bg border border-glass-border hover:bg-neon-pink hover:bg-opacity-20 transition-all duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                </a>
+                <a href="https://instagram.com/unoanirban" target="_blank" class="social-icon p-3 rounded-full bg-glass-bg border border-glass-border hover:bg-neon-pink hover:bg-opacity-20 transition-all duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Copyright -->
+            <p class="text-sm opacity-70">©2025 @unoanirban | All Right Reserved</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
