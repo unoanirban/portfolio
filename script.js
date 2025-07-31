@@ -332,7 +332,7 @@ function initResumeDownload() {
         
         // Create download link
         const link = document.createElement('a');
-        link.href = 'data/InternshalaResume.pdf';
+        link.href = 'data/Anirban_Resume.pdf';
         link.download = 'Anirban_Midya_Resume.pdf';
         link.style.display = 'none';
         
