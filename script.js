@@ -201,7 +201,7 @@ function initProjectCards() {
     // GitHub repository URLs (placeholders)
     const projectUrls = {
         '1': 'https://github.com/unoanirban/pose_detection_python',
-        '2': 'https://github.com/unoanirban/project2',
+        '2': 'https://github.com/unoanirban/quadruped_simulation',
         '3': 'https://github.com/unoanirban/project3',
         '4': 'https://github.com/unoanirban/project4'
     };
@@ -556,3 +556,4 @@ console.log(`
 Feel free to explore the code and reach out if you have any questions!
 Email: anirbanmidya12@gmail.com
 `);
+
