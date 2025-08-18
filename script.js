@@ -105,7 +105,7 @@ function initSmoothScrolling() {
 // Rotating Text Animation (Telegram-style typing effect)
 function initRotatingText() {
     const rotatingText = document.getElementById('rotating-text');
-    const texts = ['Student', 'Robotics Engineer', 'Listener'];
+    const texts = ['Student', 'Robotics Enthusiast', 'Listener'];
     let currentIndex = 0;
     let currentText = '';
     let isDeleting = false;
@@ -556,4 +556,5 @@ console.log(`
 Feel free to explore the code and reach out if you have any questions!
 Email: anirbanmidya12@gmail.com
 `);
+
 
