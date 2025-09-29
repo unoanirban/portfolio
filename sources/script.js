@@ -105,7 +105,7 @@ function initSmoothScrolling() {
 // Rotating Text Animation (Telegram-style typing effect)
 function initRotatingText() {
     const rotatingText = document.getElementById('rotating-text');
-    const texts = ['Student', 'Robotics Engineer', 'Listener'];
+    const texts = ['Student', 'Robotics Enthusiast', 'Listener'];
     let currentIndex = 0;
     let currentText = '';
     let isDeleting = false;
@@ -200,9 +200,9 @@ function initProjectCards() {
     
     // GitHub repository URLs (placeholders)
     const projectUrls = {
-        '1': 'https://github.com/unoanirban/project1',
-        '2': 'https://github.com/unoanirban/project2',
-        '3': 'https://github.com/unoanirban/project3',
+        '1': 'https://github.com/unoanirban/pose_detection_python',
+        '2': 'https://github.com/unoanirban/quadruped_simulation',
+        '3': 'https://github.com/unoanirban/handwritten-digit-recognition',
         '4': 'https://github.com/unoanirban/project4'
     };
     
@@ -332,7 +332,7 @@ function initResumeDownload() {
         
         // Create download link
         const link = document.createElement('a');
-        link.href = 'resume.pdf';
+        link.href = 'data/Anirban_Resume.pdf';
         link.download = 'Anirban_Midya_Resume.pdf';
         link.style.display = 'none';
         
@@ -394,7 +394,7 @@ function initActiveNavigation() {
     const sections = document.querySelectorAll('section');
     
     const observerOptions = {
-        threshold: 0.3,
+        threshold: 0.1,
         rootMargin: '-100px 0px -50% 0px'
     };
     
@@ -556,3 +556,5 @@ console.log(`
 Feel free to explore the code and reach out if you have any questions!
 Email: anirbanmidya12@gmail.com
 `);
+
+
