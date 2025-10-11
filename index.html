@@ -5,113 +5,156 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Do You Love Me?</title>
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
     body {
-        background: linear-gradient(135deg, #ffdee9, #b5fffc);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        margin: 0;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         text-align: center;
+        position: relative;
         overflow: hidden;
     }
 
-    h1 {
-        color: #3a3a3a;
-        font-size: 2rem;
+    /* Animated floating hearts in background */
+    .heart {
+        position: absolute;
+        font-size: 40px;
+        opacity: 0.3;
+        animation: float 6s ease-in-out infinite;
+        user-select: none;
+        pointer-events: none;
+    }
+
+    .heart:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+    .heart:nth-child(2) { left: 80%; top: 60%; animation-delay: 1s; }
+    .heart:nth-child(3) { left: 50%; top: 10%; animation-delay: 2s; }
+    .heart:nth-child(4) { left: 20%; top: 70%; animation-delay: 1.5s; }
+    .heart:nth-child(5) { left: 90%; top: 30%; animation-delay: 2.5s; }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-30px); }
+    }
+
+    .container {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 60px 40px;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        z-index: 10;
+        max-width: 600px;
+        width: 90%;
+        backdrop-filter: blur(10px);
+    }
+
+    p {
+        font-size: 48px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         margin-bottom: 50px;
     }
 
-    .button-container {
+    .button-group {
         display: flex;
-        gap: 40px;
-        flex-wrap: wrap;
         justify-content: center;
+        align-items: center;
+        gap: 30px;
+        flex-wrap: wrap;
+        position: relative;
     }
 
     button {
-        padding: 18px 40px;
-        font-size: 1.2rem;
+        padding: 18px 50px;
+        font-size: 22px;
         border: none;
-        border-radius: 10px;
+        border-radius: 50px;
         color: white;
+        font-weight: bold;
         cursor: pointer;
-        transition: transform 0.3s ease, background-color 0.3s ease;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        position: relative;
     }
 
     #yesButton {
-        background-color: #28a745;
+        background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
     }
 
     #yesButton:hover {
-        background-color: #218838;
-        transform: scale(1.05);
+        transform: scale(1.1);
+        box-shadow: 0 15px 40px rgba(76, 175, 80, 0.4);
+    }
+
+    #yesButton:active {
+        transform: scale(0.98);
     }
 
     #noButton {
-        background-color: #dc3545;
+        background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
         position: absolute;
-        transition: top 0.3s ease, left 0.3s ease;
+        transition: top 0.3s, left 0.3s;
     }
 
-    @media (max-width: 768px) {
-        h1 {
-            font-size: 1.6rem;
+    @media (max-width: 600px) {
+        p {
+            font-size: 36px;
         }
-        button {
-            font-size: 1rem;
-            padding: 15px 30px;
-        }
-    }
 
-    @media (max-width: 480px) {
-        h1 {
-            font-size: 1.3rem;
+        .container {
+            padding: 40px 30px;
         }
+
         button {
-            font-size: 0.9rem;
-            padding: 12px 25px;
+            padding: 15px 35px;
+            font-size: 18px;
         }
     }
 </style>
 </head>
 <body>
-    <h1>Do you love me?</h1>
-    <div class="button-container">
-        <button id="yesButton" onclick="window.location.href='thankyou.html'">Yes</button>
-        <button id="noButton">No</button>
+    <!-- Floating background hearts -->
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+
+    <div class="container">
+        <p>Do you love me?</p>
+        <div class="button-group">
+            <button id="yesButton" onclick="window.location.href='thankyou.html'">Yes 💚</button>
+            <button id="noButton">No 💔</button>
+        </div>
     </div>
 
     <script>
         const noButton = document.getElementById('noButton');
 
-        noButton.addEventListener('mouseover', () => {
-            const buttonWidth = noButton.offsetWidth;
-            const buttonHeight = noButton.offsetHeight;
+        noButton.addEventListener('mouseover', function() {
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+            const buttonRect = noButton.getBoundingClientRect();
 
-            // Keep button fully visible inside viewport
-            const maxX = window.innerWidth - buttonWidth - 20;
-            const maxY = window.innerHeight - buttonHeight - 20;
+            // Calculate random positions inside container bounds
+            const maxX = containerRect.width - buttonRect.width - 20;
+            const maxY = containerRect.height - buttonRect.height - 20;
 
             const randomX = Math.random() * maxX;
             const randomY = Math.random() * maxY;
 
-            noButton.style.left = `${randomX}px`;
-            noButton.style.top = `${randomY}px`;
-        });
-
-        // For mobile (touch devices)
-        noButton.addEventListener('touchstart', () => {
-            const buttonWidth = noButton.offsetWidth;
-            const buttonHeight = noButton.offsetHeight;
-            const maxX = window.innerWidth - buttonWidth - 20;
-            const maxY = window.innerHeight - buttonHeight - 20;
-            const randomX = Math.random() * maxX;
-            const randomY = Math.random() * maxY;
-            noButton.style.left = `${randomX}px`;
-            noButton.style.top = `${randomY}px`;
+            noButton.style.left = randomX + 'px';
+            noButton.style.top = randomY + 'px';
         });
     </script>
 </body>
