@@ -27,7 +27,7 @@ body.dark{
 
 /* Light mode styles */
 body:not(.dark) {
-    background: linear-gradient(135deg, #98F5F9 0%, #98F5F9 100%);
+    background: linear-gradient(135deg, #D8BFD8 0%, #D8BFD8 100%);
     color: #1a202c;
 }
 
@@ -390,6 +390,7 @@ body:not(.dark) .glass-card {
     animation: serviceHide 0.3s ease-in forwards;
     display: none;
 }
+
 
 
 
