@@ -1,27 +1,147 @@
 /* Custom CSS for Portfolio Website */
 
-/* Glass morphism effects */
+
+a,
+button,
+input,
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Futuristic Fonts */
+body {
+    font-family: 'Rajdhani', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-futuristic {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
+
+/* Bento Grid Layout */
+.bento-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+@media (min-width: 1024px) {
+    .bento-grid {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, minmax(140px, auto));
+    }
+
+    .hero-card {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+
+    .socials-card {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+
+    .skills-card {
+        grid-column: span 1;
+        grid-row: span 2;
+    }
+
+    .resume-card {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+
+    .projects-card {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+
+    .services-card {
+        grid-column: span 1;
+        grid-row: span 2;
+    }
+
+    /* Split Contact Section */
+    .mail-card {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+
+    .schedule-card {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+}
+
+/* Glass Tile Base */
+.bento-card {
+    border-radius: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.bento-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Base Glass Styles */
 .glass-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    background: rgba(13, 13, 15, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.glass-button {
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px 0 rgba(255, 0, 128, 0.37);
-}
-
-/* Dark mode styles #22ac7c;*/
-.dark .glass-card {
+/* Skill Tags */
+.skill-tag {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
-body.dark{
-    background: #1a202c;
-    color: #5def08;
+.skill-tag:hover {
+    background: rgba(255, 0, 128, 0.2);
+    border-color: #ff0080;
+    transform: scale(1.05);
+}
+
+/* Social Buttons */
+.social-btn {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+    background: #ff0080;
+    transform: rotate(360deg);
+}
+
+/* Dark mode fallback */
+.dark .glass-card {
+    background: rgba(10, 10, 10, 0.7);
+}
+
+body.dark {
+    background: #050508;
+    color: #e0e0e0;
     transition: background-color 0.3s ease;
 }
 
@@ -44,9 +164,12 @@ body:not(.dark) header {
 
 /* Floating animation for profile image */
 @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0px);
     }
+
     50% {
         transform: translateY(-20px);
     }
@@ -64,12 +187,29 @@ body:not(.dark) header {
 
 @keyframes neon-pulse {
     from {
-        box-shadow: 0 0 20px #ff0080, 0 0 40px #ff0080, 0 0 60px #ff0080;
+        box-shadow: 0 0 10px #00fff2, 0 0 20px #00fff2, 0 0 30px #00fff2;
     }
+
     to {
-        box-shadow: 0 0 10px #ff0080, 0 0 20px #ff0080, 0 0 30px #ff0080;
+        box-shadow: 0 0 5px #ff0080, 0 0 10px #ff0080, 0 0 15px #ff0080;
     }
 }
+
+
+/* Decoder Text Effect */
+.decoder-text {
+    font-family: 'Orbitron', sans-serif;
+    /* Ensure futuristic font */
+    color: white;
+    /* Base color */
+}
+
+.decoder-text span {
+    display: inline-block;
+    min-width: 0.5em;
+    /* Prevent layout shift during scramble */
+}
+
 
 /* Skill cards */
 .skill-card {
@@ -99,15 +239,41 @@ body:not(.dark) header {
 }
 
 /* Stagger animation for skill cards */
-.skill-card:nth-child(1) { animation-delay: 0.1s; }
-.skill-card:nth-child(2) { animation-delay: 0.2s; }
-.skill-card:nth-child(3) { animation-delay: 0.3s; }
-.skill-card:nth-child(4) { animation-delay: 0.4s; }
-.skill-card:nth-child(5) { animation-delay: 0.5s; }
-.skill-card:nth-child(6) { animation-delay: 0.6s; }
-.skill-card:nth-child(7) { animation-delay: 0.7s; }
-.skill-card:nth-child(8) { animation-delay: 0.8s; }
-.skill-card:nth-child(9) { animation-delay: 0.9s; }
+.skill-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.skill-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.skill-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.skill-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.skill-card:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.skill-card:nth-child(6) {
+    animation-delay: 0.6s;
+}
+
+.skill-card:nth-child(7) {
+    animation-delay: 0.7s;
+}
+
+.skill-card:nth-child(8) {
+    animation-delay: 0.8s;
+}
+
+.skill-card:nth-child(9) {
+    animation-delay: 0.9s;
+}
 
 /* Telegram-style vanish animation */
 @keyframes vanish {
@@ -115,10 +281,12 @@ body:not(.dark) header {
         opacity: 1;
         transform: scale(1) rotateY(0deg);
     }
+
     50% {
         opacity: 0.5;
         transform: scale(0.8) rotateY(90deg);
     }
+
     100% {
         opacity: 0;
         transform: scale(0.5) rotateY(180deg);
@@ -135,10 +303,12 @@ body:not(.dark) header {
         opacity: 0;
         transform: scale(0.5) rotateY(-180deg);
     }
+
     50% {
         opacity: 0.5;
         transform: scale(0.8) rotateY(-90deg);
     }
+
     100% {
         opacity: 1;
         transform: scale(1) rotateY(0deg);
@@ -173,8 +343,16 @@ html {
 
 /* Typing cursor animation */
 @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
 }
 
 .typing-cursor {
@@ -192,6 +370,7 @@ html {
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -217,11 +396,12 @@ html {
         font-size: 14px;
         padding: 8px;
     }
-    
-    .project-card, .service-card {
+
+    .project-card,
+    .service-card {
         padding: 16px;
     }
-    
+
     .glass-card {
         backdrop-filter: blur(5px);
     }
@@ -260,9 +440,11 @@ img:not([src]) {
     0% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.05);
     }
+
     100% {
         transform: scale(1);
     }
@@ -277,9 +459,11 @@ img:not([src]) {
     0% {
         background-position: 0% 50%;
     }
+
     50% {
         background-position: 100% 50%;
     }
+
     100% {
         background-position: 0% 50%;
     }
@@ -331,6 +515,7 @@ img:not([src]) {
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -364,6 +549,7 @@ body:not(.dark) .glass-card {
         opacity: 0;
         transform: scale(0.95);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
@@ -375,6 +561,7 @@ body:not(.dark) .glass-card {
         opacity: 1;
         transform: scale(1);
     }
+
     to {
         opacity: 0;
         transform: scale(0.95);
@@ -390,9 +577,3 @@ body:not(.dark) .glass-card {
     animation: serviceHide 0.3s ease-in forwards;
     display: none;
 }
-
-
-
-
-
-
