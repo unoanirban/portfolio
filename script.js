@@ -2,7 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', function () {
     // Initialize functionality
-    initParticles();
+    initGalaxyBackground();
     initTiltEffect();
     initDecoderEffect();
     initResumeDownload();
@@ -24,82 +24,237 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Particle System
 // Particle System
-function initParticles() {
+// Galaxy 3D Particle System
+function initGalaxyBackground() {
     const canvas = document.getElementById('particles-js');
-    const ctx = canvas.getContext('2d');
-    let width, height;
-    let particles = [];
+    if (!canvas) return;
 
-    function resize() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
+    // --- CONFIGURATION ---
+    const PARTICLE_COUNT = 4000; // Increased for better density
+    const PARTICLE_SIZE = 0.15;
+    const TRANSITION_SPEED = 0.08;
+
+    // --- THREE.JS SETUP ---
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 25; // Closer camera for better immersive feel
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // optimize for high DPI
+
+    // --- PARTICLE SYSTEM STATE ---
+    let particles;
+    let targetPositions = [];
+
+    // Geometry & Material
+    const geometry = new THREE.BufferGeometry();
+    // Using a texture-less point material for performance, but custom shader could be nicer. 
+    // Stick to PointsMaterial with vertex colors for now.
+    const material = new THREE.PointsMaterial({
+        size: PARTICLE_SIZE,
+        vertexColors: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        sizeAttenuation: true
+    });
+
+    // Initialize arrays
+    const posArray = new Float32Array(PARTICLE_COUNT * 3);
+    const colArray = new Float32Array(PARTICLE_COUNT * 3);
+
+    for (let i = 0; i < PARTICLE_COUNT * 3; i++) {
+        posArray[i] = (Math.random() - 0.5) * 60; // Spread out initially
+        colArray[i] = 1.0;
     }
 
-    window.addEventListener('resize', resize);
-    resize();
+    geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colArray, 3));
+    particles = new THREE.Points(geometry, material);
+    scene.add(particles);
 
-    class Particle {
-        constructor() {
-            this.x = Math.random() * width;
-            this.y = Math.random() * height;
-            this.vx = (Math.random() - 0.5) * 0.5;
-            this.vy = (Math.random() - 0.5) * 0.5;
-            this.size = Math.random() * 2 + 1;
-            this.color = Math.random() > 0.5 ? '#ff0080' : '#00fff2'; // Neon Pink or Cyan
-        }
+    // --- MATH / SHAPES ---
+    function getSpherePoint() {
+        const u = Math.random();
+        const v = Math.random();
+        const theta = 2 * Math.PI * u;
+        const phi = Math.acos(2 * v - 1);
+        const r = 18 + Math.random() * 2; // Increased radius + noise
+        return {
+            x: r * Math.sin(phi) * Math.cos(theta),
+            y: r * Math.sin(phi) * Math.sin(theta),
+            z: r * Math.cos(phi)
+        };
+    }
 
-        update() {
-            this.x += this.vx;
-            this.y += this.vy;
+    function getHeartPoint() {
+        let t = Math.random() * Math.PI * 2;
+        let u = Math.random() * Math.PI;
+        const r = 1.2; // Scaled up
+        const x = r * 16 * Math.pow(Math.sin(t), 3) * Math.sin(u);
+        const y = r * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)) * Math.sin(u);
+        const z = r * 8 * Math.cos(u);
+        return { x, y: y + 3, z };
+    }
 
-            if (this.x < 0) this.x = width;
-            if (this.x > width) this.x = 0;
-            if (this.y < 0) this.y = height;
-            if (this.y > height) this.y = 0;
-        }
-
-        draw() {
-            ctx.fillStyle = this.color;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
+    function getSaturnPoint() {
+        const isRing = Math.random() > 0.6; // More ring particles
+        if (!isRing) {
+            const p = getSpherePoint();
+            return { x: p.x * 0.5, y: p.y * 0.5, z: p.z * 0.5 };
+        } else {
+            const angle = Math.random() * Math.PI * 2;
+            const r = 16 + Math.random() * 8; // Larger rings
+            return {
+                x: r * Math.cos(angle),
+                y: (Math.random() - 0.5) * 2,
+                z: r * Math.sin(angle)
+            };
         }
     }
 
-    // Create particles
-    for (let i = 0; i < 50; i++) {
-        particles.push(new Particle());
+    function getFlowerPoint() {
+        const k = 4; // Petals
+        const theta = Math.random() * Math.PI * 2;
+        const r = 20 * Math.cos(k * theta); // Larger flower
+        const z = (Math.random() - 0.5) * 6;
+        return {
+            x: r * Math.cos(theta),
+            y: r * Math.sin(theta),
+            z: z
+        };
     }
 
+    const shapes = [
+        { name: "Sphere", func: getSpherePoint },
+        { name: "Heart", func: getHeartPoint },
+        { name: "Saturn", func: getSaturnPoint },
+        { name: "Flower", func: getFlowerPoint }
+    ];
+
+    let currentShapeIndex = 0;
+
+    // --- TARGET UPDATES ---
+    function updateTargets(index = -1) {
+        if (index !== -1) currentShapeIndex = index;
+        const shapeFunc = shapes[currentShapeIndex].func;
+
+        targetPositions = [];
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            targetPositions.push(shapeFunc());
+        }
+
+        // Dynamic Coloring based on shape
+        const colorAttr = geometry.attributes.color;
+        // Palettes: [Pink/Purple], [Red/Pink], [Cyan/Blue], [Green/Gold]
+        const hueBase = [0.8, 0.95, 0.5, 0.2][currentShapeIndex] || 0.6;
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            const c = new THREE.Color();
+            const h = hueBase + (Math.random() * 0.15);
+            c.setHSL(h % 1, 0.8, 0.6);
+            colorAttr.setXYZ(i, c.r, c.g, c.b);
+        }
+        colorAttr.needsUpdate = true;
+    }
+
+    updateTargets(0); // Init
+
+    // --- INTERACTION LOGIC ---
+    let mousePos = new THREE.Vector3(1000, 1000, 0);
+
+    // Mouse Move (Raycasting approach for accurate 3D position)
+    window.addEventListener('mousemove', (event) => {
+        const x = (event.clientX / window.innerWidth) * 2 - 1;
+        const y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        const vector = new THREE.Vector3(x, y, 0.5);
+        vector.unproject(camera);
+        const dir = vector.sub(camera.position).normalize();
+        const distance = -camera.position.z / dir.z;
+        const newPos = camera.position.clone().add(dir.multiplyScalar(distance));
+
+        mousePos.lerp(newPos, 0.2); // Smooth follow
+    });
+
+    // Hover Sections -> Shape Change
+    const behaviors = [
+        { selector: '.hero-card', shape: 0 },   // Sphere
+        { selector: '.socials-card', shape: 1 }, // Heart
+        { selector: '.projects-card', shape: 2 }, // Saturn
+        { selector: '.services-card', shape: 3 }, // Flower
+        { selector: '.skills-card', shape: 0 },
+        { selector: '.mail-card', shape: 1 },
+        { selector: '.schedule-card', shape: 2 }
+    ];
+
+    behaviors.forEach(b => {
+        const el = document.querySelector(b.selector);
+        if (el) {
+            el.addEventListener('mouseenter', () => {
+                if (currentShapeIndex !== b.shape) updateTargets(b.shape);
+            });
+        }
+    });
+
+    // --- ANIMATION LOOP ---
     function animate() {
-        ctx.clearRect(0, 0, width, height);
+        requestAnimationFrame(animate);
 
-        // Update and draw particles
-        for (let i = 0; i < particles.length; i++) {
-            particles[i].update();
-            particles[i].draw();
+        const positions = geometry.attributes.position.array;
 
-            // Draw connections
-            for (let j = i; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            const i3 = i * 3;
+            const px = positions[i3];
+            const py = positions[i3 + 1];
+            const pz = positions[i3 + 2];
 
-                if (distance < 150) {
-                    ctx.beginPath();
-                    ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 - distance / 1500})`;
-                    ctx.lineWidth = 0.5;
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.stroke();
-                }
+            const tx = targetPositions[i].x;
+            const ty = targetPositions[i].y;
+            const tz = targetPositions[i].z;
+
+            // 1. Seek Target
+            let vx = (tx - px) * TRANSITION_SPEED;
+            let vy = (ty - py) * TRANSITION_SPEED;
+            let vz = (tz - pz) * TRANSITION_SPEED;
+
+            // 2. Mouse Repulsion/Attraction
+            // Let's do a gentle "swirl" or "push" effect
+            const dx = px - mousePos.x;
+            const dy = py - mousePos.y;
+            const dz = pz - mousePos.z;
+            const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+            if (dist < 12) { // Increased interaction radius
+                const force = (12 - dist) * 1.5;
+                // Add some curl noise or just radial push
+                vx += (dx / dist) * force * 0.2;
+                vy += (dy / dist) * force * 0.2;
+                vz += (dz / dist) * force * 0.2;
             }
+
+            positions[i3] += vx;
+            positions[i3 + 1] += vy;
+            positions[i3 + 2] += vz;
         }
 
-        requestAnimationFrame(animate);
+        geometry.attributes.position.needsUpdate = true;
+
+        // Rotations
+        particles.rotation.y += 0.002;
+        particles.rotation.z += 0.0005;
+
+        renderer.render(scene, camera);
     }
 
     animate();
+
+    // Resize
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
 }
 
 
