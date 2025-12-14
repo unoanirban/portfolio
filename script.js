@@ -1,549 +1,295 @@
 // Portfolio Website JavaScript
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize all functionality
-    initThemeToggle();
-    initMobileMenu();
-    initSmoothScrolling();
-    initRotatingText();
-    initSkillWidgets();
-    initProjectCards();
-    initServiceCards();
+document.addEventListener('DOMContentLoaded', function () {
+    // Initialize functionality
+    initParticles();
+    initTiltEffect();
+    initDecoderEffect();
     initResumeDownload();
-    initScrollAnimations();
-    initActiveNavigation();
+    initServicesVideo();
+
+    // Animate Bento Cards on Load
+    const cards = document.querySelectorAll('.bento-card');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            card.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, 100 * index);
+    });
 });
 
-// Theme Toggle Functionality
-function initThemeToggle() {
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeIcon = document.getElementById('theme-icon');
-    const body = document.body;
 
-    // Check for saved theme preference or default to dark mode
-    const currentTheme = localStorage.getItem('theme') || 'dark';
-    body.classList.toggle('dark', currentTheme === 'dark');
-    updateThemeIcon(currentTheme === 'dark');
+// Particle System
+// Particle System
+function initParticles() {
+    const canvas = document.getElementById('particles-js');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
 
-    themeToggle.addEventListener('click', () => {
-        const isDark = body.classList.contains('dark');
-        body.classList.toggle('dark');
-        
-        const newTheme = isDark ? 'light' : 'dark';
-        localStorage.setItem('theme', newTheme);
-        updateThemeIcon(!isDark);
-        
-        // Add transition effect
-        body.style.transition = 'all 0.5s ease';
-        setTimeout(() => {
-            body.style.transition = '';
-        }, 500);
-    });
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    }
 
-    function updateThemeIcon(isDark) {
-        if (isDark) {
-            // Moon icon for dark mode
-            themeIcon.innerHTML = '<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>';
-        } else {
-            // Sun icon for light mode
-            themeIcon.innerHTML = '<path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>';
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.vx = (Math.random() - 0.5) * 0.5;
+            this.vy = (Math.random() - 0.5) * 0.5;
+            this.size = Math.random() * 2 + 1;
+            this.color = Math.random() > 0.5 ? '#ff0080' : '#00fff2'; // Neon Pink or Cyan
+        }
+
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+
+            if (this.x < 0) this.x = width;
+            if (this.x > width) this.x = 0;
+            if (this.y < 0) this.y = height;
+            if (this.y > height) this.y = 0;
+        }
+
+        draw() {
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
         }
     }
-}
 
-// Mobile Menu Functionality
-function initMobileMenu() {
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    mobileMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-        mobileMenu.classList.toggle('show');
-    });
-
-    // Close mobile menu when clicking on a link
-    const mobileLinks = mobileMenu.querySelectorAll('a');
-    mobileLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            mobileMenu.classList.add('hidden');
-            mobileMenu.classList.remove('show');
-        });
-    });
-
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
-            mobileMenu.classList.add('hidden');
-            mobileMenu.classList.remove('show');
-        }
-    });
-}
-
-// Smooth Scrolling for Navigation Links
-function initSmoothScrolling() {
-    const navLinks = document.querySelectorAll('a[href^="#"]');
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                const headerHeight = document.querySelector('header').offsetHeight;
-                const targetPosition = targetSection.offsetTop - headerHeight - 20;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-}
-
-// Rotating Text Animation (Telegram-style typing effect)
-function initRotatingText() {
-    const rotatingText = document.getElementById('rotating-text');
-    const texts = ['Student', 'Robotics Enthusiast', 'Listener'];
-    let currentIndex = 0;
-    let currentText = '';
-    let isDeleting = false;
-    let typeSpeed = 150;
-
-    function typeText() {
-        const fullText = texts[currentIndex];
-        
-        if (isDeleting) {
-            currentText = fullText.substring(0, currentText.length - 1);
-            typeSpeed = 75;
-        } else {
-            currentText = fullText.substring(0, currentText.length + 1);
-            typeSpeed = 150;
-        }
-        
-        rotatingText.textContent = currentText;
-        
-        if (!isDeleting && currentText === fullText) {
-            typeSpeed = 2000; // Pause at end
-            isDeleting = true;
-        } else if (isDeleting && currentText === '') {
-            isDeleting = false;
-            currentIndex = (currentIndex + 1) % texts.length;
-            typeSpeed = 500; // Pause before starting new word
-        }
-        
-        setTimeout(typeText, typeSpeed);
+    // Create particles
+    for (let i = 0; i < 50; i++) {
+        particles.push(new Particle());
     }
-    
-    typeText();
-}
 
-// Skills Widget Functionality
-function initSkillWidgets() {
-    const skillWidgets = document.querySelectorAll('.skill-widget');
-    
-    skillWidgets.forEach(widget => {
-        const skillContent = widget.querySelector('.skill-content');
-        let isExpanded = false;
-        
-        // Add neon glow on hover
-        widget.addEventListener('mouseenter', () => {
-            widget.classList.add('neon-glow');
-        });
-        
-        widget.addEventListener('mouseleave', () => {
-            widget.classList.remove('neon-glow');
-        });
-        
-        // Toggle skill content on click
-        widget.addEventListener('click', () => {
-            if (!isExpanded) {
-                // Expand with Telegram-style animation
-                skillContent.classList.remove('hidden');
-                skillContent.classList.add('uncover-animation');
-                isExpanded = true;
-                
-                // Reset skill card animations
-                const skillCards = skillContent.querySelectorAll('.skill-card');
-                skillCards.forEach((card, index) => {
-                    card.style.animationDelay = `${index * 0.1}s`;
-                    card.classList.remove('slideInUp');
-                    // Trigger reflow
-                    card.offsetHeight;
-                    card.classList.add('slideInUp');
-                });
-            } else {
-                // Collapse with vanish animation
-                skillContent.classList.add('vanish-animation');
-                setTimeout(() => {
-                    skillContent.classList.add('hidden');
-                    skillContent.classList.remove('vanish-animation', 'uncover-animation');
-                    isExpanded = false;
-                }, 500);
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        // Update and draw particles
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].draw();
+
+            // Draw connections
+            for (let j = i; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 150) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 - distance / 1500})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.stroke();
+                }
             }
-        });
-    });
-    
-    // Reset widgets on page refresh
-    window.addEventListener('beforeunload', () => {
-        skillWidgets.forEach(widget => {
-            const skillContent = widget.querySelector('.skill-content');
-            skillContent.classList.add('hidden');
-        });
-    });
-}
-
-// Project Cards Functionality
-function initProjectCards() {
-    const projectCards = document.querySelectorAll('.project-card');
-    
-    // GitHub repository URLs (placeholders)
-    const projectUrls = {
-        '1': 'https://github.com/unoanirban/pose_detection_python',
-        '2': 'https://github.com/unoanirban/quadruped_simulation',
-        '3': 'https://github.com/unoanirban/handwritten-digit-recognition',
-        '4': 'https://github.com/unoanirban/project4'
-    };
-    
-    projectCards.forEach(card => {
-        const projectId = card.dataset.project;
-        
-        card.addEventListener('click', () => {
-            // Telegram-style vanish animation
-            card.classList.add('vanish-animation');
-            
-            setTimeout(() => {
-                // Redirect to GitHub repo
-                window.open(projectUrls[projectId], '_blank');
-                
-                // Reset animation
-                card.classList.remove('vanish-animation');
-            }, 500);
-        });
-    });
-}
-
-function initServiceCards() {
-    const serviceCards = document.querySelectorAll('.service-card');
-    let currentActiveCard = null;
-    let currentPlayingVideo = null;
-
-    serviceCards.forEach(card => {
-        const serviceVideo = card.querySelector('.service-video');
-        const video = serviceVideo.querySelector('video');
-        const textContents = card.querySelectorAll('h3, p');
-
-        // Function to reset any card to its initial state
-        function resetCard(cardToReset) {
-            const resetText = cardToReset.querySelectorAll('h3, p');
-            const resetVideoContainer = cardToReset.querySelector('.service-video');
-            const resetVideo = resetVideoContainer.querySelector('video');
-
-            resetText.forEach(el => {
-                el.style.display = 'block';
-                el.style.opacity = '1';
-            });
-
-            resetVideo.pause();
-            resetVideo.currentTime = 0;
-            resetVideoContainer.classList.add('hidden');
-            resetVideoContainer.classList.remove('show');
-            cardToReset.classList.remove('active');
         }
 
-        card.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent bubbling to document click
+        requestAnimationFrame(animate);
+    }
 
-            // If clicking the currently active card again → toggle it off
-            if (card === currentActiveCard) {
-                resetCard(card);
-                currentActiveCard = null;
-                currentPlayingVideo = null;
-                return;
-            }
+    animate();
+}
 
-            // If another card is active → reset it
-            if (currentActiveCard && currentActiveCard !== card) {
-                resetCard(currentActiveCard);
-            }
 
-            // Hide text
-            textContents.forEach(el => {
-                el.style.transition = 'opacity 0.3s ease';
-                el.style.opacity = '0';
-            });
 
-            setTimeout(() => {
-                textContents.forEach(el => el.style.display = 'none');
-                serviceVideo.classList.remove('hidden');
-                serviceVideo.classList.add('show');
-                card.classList.add('active');
+// 3D Tilt Effect
+function initTiltEffect() {
+    const cards = document.querySelectorAll('.glass-card, .project-card, .service-card');
 
-                video.currentTime = 0;
-                video.play();
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
 
-                currentActiveCard = card;
-                currentPlayingVideo = video;
-            }, 250);
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = ((y - centerY) / centerY) * -10; // Max 10deg rotation
+            const rotateY = ((x - centerX) / centerX) * 10;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
         });
 
-        // Optional: Handle video end (not needed if it loops)
-        video.addEventListener('ended', () => {
-            resetCard(card);
-            currentActiveCard = null;
-            currentPlayingVideo = null;
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
         });
-    });
-
-    // Click outside → reset current card
-    document.addEventListener('click', () => {
-        if (currentActiveCard) {
-            const card = currentActiveCard;
-            const video = currentPlayingVideo;
-            const textContents = card.querySelectorAll('h3, p');
-            const serviceVideo = card.querySelector('.service-video');
-
-            textContents.forEach(el => {
-                el.style.display = 'block';
-                el.style.opacity = '1';
-            });
-
-            video.pause();
-            video.currentTime = 0;
-            serviceVideo.classList.add('hidden');
-            serviceVideo.classList.remove('show');
-            card.classList.remove('active');
-
-            currentActiveCard = null;
-            currentPlayingVideo = null;
-        }
     });
 }
+
+// Decoder Text Effect (Hacker Style)
+function initDecoderEffect() {
+    const texts = document.querySelectorAll('h1, h2');
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+
+    texts.forEach(element => {
+        const originalText = element.innerText;
+        element.setAttribute('data-value', originalText);
+
+        element.addEventListener('mouseover', event => {
+            let iterations = 0;
+
+            // Clear any existing interval to prevent overlapping animations
+            if (element.dataset.interval) {
+                clearInterval(parseInt(element.dataset.interval));
+            }
+
+            const interval = setInterval(() => {
+                event.target.innerText = event.target.innerText
+                    .split('')
+                    .map((letter, index) => {
+                        if (index < iterations) {
+                            return event.target.dataset.value[index];
+                        }
+                        return chars[Math.floor(Math.random() * chars.length)];
+                    })
+                    .join('');
+
+                if (iterations >= event.target.dataset.value.length) {
+                    clearInterval(interval);
+                }
+
+                iterations += 1 / 3;
+            }, 30);
+
+            element.dataset.interval = interval.toString();
+        });
+    });
+}
+
+
 
 
 // Resume Download Functionality
 function initResumeDownload() {
     const downloadBtn = document.getElementById('download-resume');
-    
+
+    if (!downloadBtn) return;
+
     downloadBtn.addEventListener('click', () => {
         // Add pulse animation
         downloadBtn.classList.add('pulse-animation');
-        
+
         // Create download link
         const link = document.createElement('a');
         link.href = 'data/Anirban_Resume.pdf';
         link.download = 'Anirban_Midya_Resume.pdf';
         link.style.display = 'none';
-        
+
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        
+
         // Remove pulse animation
         setTimeout(() => {
             downloadBtn.classList.remove('pulse-animation');
         }, 2000);
-        
+
         // Show success feedback
         const originalText = downloadBtn.querySelector('span:last-child').textContent;
         downloadBtn.querySelector('span:last-child').textContent = 'Downloaded!';
-        
+
         setTimeout(() => {
             downloadBtn.querySelector('span:last-child').textContent = originalText;
         }, 2000);
     });
 }
 
-// Scroll Animations
-function initScrollAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
+// Services Video Functionality
+// Services Video Functionality
+// Services Video Functionality
+function initServicesVideo() {
+    const serviceItems = document.querySelectorAll('.services-card li');
+    const videoContainer = document.getElementById('service-video-container');
+    const videoPlayer = document.getElementById('service-player');
+    const videoSource = videoPlayer.querySelector('source');
+    const placeholder = document.getElementById('service-placeholder');
+
+    if (!videoContainer || !videoPlayer) return;
+
+    let currentIndex = 0;
+    let playbackTimeout;
+    let isManualMode = false;
+
+    // Define text colors for highlighting based on hover classes
+    const colors = ['text-neon-pink', 'text-neon-purple', 'text-neon-cyan', 'text-white'];
+
+    function playService(index, manual = false) {
+        // Clear any existing timeout
+        if (playbackTimeout) clearTimeout(playbackTimeout);
+        isManualMode = manual;
+
+        // Remove active styles from all
+        serviceItems.forEach((item) => {
+            item.classList.remove('font-bold', 'text-neon-pink', 'text-neon-purple', 'text-neon-cyan', 'text-white');
+            // Re-add hover transition just in case
+            item.classList.add('transition-colors');
+        });
+
+        // Activate current item
+        const currentItem = serviceItems[index];
+        currentItem.classList.add('font-bold');
+
+        // Apply specific color based on index or dataset could be better, but array works simpler here since list is static order
+        if (colors[index]) {
+            currentItem.classList.add(colors[index]);
+        }
+
+        const videoPath = currentItem.dataset.video;
+        if (videoPath) {
+            if (placeholder) placeholder.style.display = 'none';
+            videoContainer.classList.remove('hidden');
+
+            videoSource.src = videoPath;
+            videoPlayer.load();
+            videoPlayer.play().catch(e => console.log('Auto-play prevented:', e));
+
+            // If not manual, set timeout to switch after 5 seconds
+            if (!manual) {
+                playbackTimeout = setTimeout(() => {
+                    playNext();
+                }, 5000);
             }
-        });
-    }, observerOptions);
-    
-    // Observe all sections
-    const sections = document.querySelectorAll('section');
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-    
-    // Parallax effect for background
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const parallaxElements = document.querySelectorAll('.parallax-section');
-        
-        parallaxElements.forEach(element => {
-            const speed = 0.5;
-            element.style.transform = `translateY(${scrolled * speed}px)`;
-        });
-    });
-}
-
-// Active Navigation Highlighting
-function initActiveNavigation() {
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('section');
-    
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '-100px 0px -50% 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const sectionId = entry.target.id;
-                
-                // Remove active class from all nav links
-                navLinks.forEach(link => link.classList.remove('active'));
-                
-                // Add active class to current section's nav link
-                const activeLink = document.querySelector(`a[href="#${sectionId}"]`);
-                if (activeLink) {
-                    activeLink.classList.add('active');
-                }
-            }
-        });
-    }, observerOptions);
-    
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-}
-
-// Utility Functions
-
-// Debounce function for performance optimization
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Smooth reveal animation for elements
-function revealElement(element, delay = 0) {
-    setTimeout(() => {
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(30px)';
-        element.style.transition = 'all 0.6s ease';
-        
-        setTimeout(() => {
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
-        }, 100);
-    }, delay);
-}
-
-// Add loading animation
-window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-    
-    // Reveal elements with stagger effect
-    const elementsToReveal = document.querySelectorAll('.glass-card, .project-card, .service-card');
-    elementsToReveal.forEach((element, index) => {
-        revealElement(element, index * 100);
-    });
-});
-
-// Handle page visibility change
-document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-        // Pause animations when page is not visible
-        document.body.classList.add('paused');
-    } else {
-        // Resume animations when page becomes visible
-        document.body.classList.remove('paused');
-    }
-});
-
-// Error handling for missing assets
-function handleMissingAssets() {
-    const images = document.querySelectorAll('img');
-    const videos = document.querySelectorAll('video');
-    
-    images.forEach(img => {
-        img.addEventListener('error', () => {
-            img.style.display = 'none';
-            console.warn(`Image not found: ${img.src}`);
-        });
-    });
-    
-    videos.forEach(video => {
-        video.addEventListener('error', () => {
-            const parent = video.closest('.service-video');
-            if (parent) {
-                parent.innerHTML = '<p class="text-sm opacity-60">Video not available</p>';
-            }
-            console.warn(`Video not found: ${video.src}`);
-        });
-    });
-}
-
-// Initialize error handling
-handleMissingAssets();
-
-// Performance optimization
-const debouncedScrollHandler = debounce(() => {
-    // Handle scroll-based animations
-    const scrollTop = window.pageYOffset;
-    
-    // Update header opacity based on scroll
-    const header = document.querySelector('header');
-    const opacity = Math.min(scrollTop / 100, 1);
-    header.style.backgroundColor = `rgba(255, 255, 255, ${opacity * 0.1})`;
-}, 10);
-
-window.addEventListener('scroll', debouncedScrollHandler);
-
-// Keyboard navigation support
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        // Close mobile menu
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenu.classList.add('hidden');
-        mobileMenu.classList.remove('show');
-    }
-});
-
-// Touch gesture support for mobile
-let touchStartY = 0;
-let touchEndY = 0;
-
-document.addEventListener('touchstart', (e) => {
-    touchStartY = e.changedTouches[0].screenY;
-});
-
-document.addEventListener('touchend', (e) => {
-    touchEndY = e.changedTouches[0].screenY;
-    handleSwipeGesture();
-});
-
-function handleSwipeGesture() {
-    const swipeThreshold = 50;
-    const diff = touchStartY - touchEndY;
-    
-    if (Math.abs(diff) > swipeThreshold) {
-        if (diff > 0) {
-            // Swipe up - could trigger some action
-        } else {
-            // Swipe down - could trigger some action
         }
     }
+
+    function playNext() {
+        currentIndex = (currentIndex + 1) % serviceItems.length;
+        playService(currentIndex, false); // Always revert to auto loop
+    }
+
+    // Initialize first video auto-play
+    setTimeout(() => {
+        playService(0, false);
+    }, 1000); // Small delay after load
+
+    // Listen for video end to loop to next
+    videoPlayer.addEventListener('ended', () => {
+        // If the video ended naturally
+        // If manual mode: it means full video was watched, now go to next in auto loop
+        // If auto mode: it means video was < 5s, so go to next immediately
+        playNext();
+    });
+
+    // Manual click override
+    serviceItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            currentIndex = index;
+            playService(currentIndex, true); // True for manual mode
+        });
+    });
 }
 
 // Console welcome message
@@ -556,6 +302,3 @@ console.log(`
 Feel free to explore the code and reach out if you have any questions!
 Email: anirbanmidya12@gmail.com
 `);
-
-
-
