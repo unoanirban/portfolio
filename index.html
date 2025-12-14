@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>unoanirban - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        futuristic: ['Orbitron', 'sans-serif'],
+                        tech: ['Rajdhani', 'sans-serif'],
+                    },
+                    colors: {
+                        'neon-pink': '#ff0080',
+                        'neon-purple': '#8000ff',
+                        'neon-cyan': '#00fff2',
+                        'glass-bg': 'rgba(255, 255, 255, 0.03)',
+                        'glass-border': 'rgba(255, 255, 255, 0.05)',
+                    },
+                    backdropBlur: {
+                        'xs': '2px',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    class="dark bg-gray-900 text-white transition-all duration-500 overflow-x-hidden selection:bg-neon-pink selection:text-white">
+    <!-- Particles Background -->
+    <canvas id="particles-js" class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"></canvas>
+
+    <!-- Main Grid Container -->
+    <main class="min-h-screen p-4 md:p-8 flex items-center justify-center">
+        <div class="bento-grid container mx-auto max-w-7xl">
+
+            <!-- Area 1: Hero (Profile) -->
+            <div class="bento-card hero-card glass-card relative overflow-hidden group p-6 md:p-12">
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-neon-pink/10 to-neon-purple/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                </div>
+                <div class="relative z-10 flex flex-col md:flex-row items-center gap-8 h-full">
+                    <img src="data/images/photo_portfolio.jpg" alt="Anirban Midya"
+                        class="w-40 h-40 rounded-full object-cover ring-4 ring-neon-pink/50 shadow-lg shadow-neon-pink/20 animate-float shrink-0 aspect-square">
+                    <div class="text-center md:text-left">
+                        <h2 class="text-neon-cyan font-mono text-sm mb-2 opacity-80">&lt;Hello World /&gt;</h2>
+                        <h1 class="text-4xl md:text-6xl font-black mb-2 uppercase tracking-tighter">
+                            Anirban<br><span
+                                class="text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-neon-purple">Midya</span>
+                        </h1>
+                        <div class="text-xl md:text-2xl font-mono">
+                            <span class="decoder-text text-neon-cyan">Robotics Engineer</span>
+                        </div>
+                        <p class="mt-4 max-w-md text-gray-300 leading-relaxed text-sm md:text-base">
+                            Building innovative robotic systems, embedded solutions, and intelligent machines. turning
+                            sci-fi into reality.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Area 2: Socials -->
+            <div class="bento-card socials-card glass-card flex flex-col justify-center items-center gap-4">
+                <h3 class="text-neon-pink font-bold uppercase tracking-widest text-xs mb-2">Connect</h3>
+                <div class="flex gap-4">
+                    <a href="https://github.com/unoanirban" target="_blank" class="social-btn group">
+                        <svg class="w-6 h-6 group-hover:text-white transition-colors" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/anirbanmidya/" target="_blank" class="social-btn group">
+                        <svg class="w-6 h-6 group-hover:text-white transition-colors" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/anirban_midya26/" target="_blank" class="social-btn group">
+                        <svg class="w-6 h-6 group-hover:text-white transition-colors" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Area 3: Skills -->
+            <div class="bento-card skills-card glass-card p-6 overflow-hidden">
+                <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
+                    <span class="w-2 h-8 bg-neon-purple rounded-full"></span>
+                    Skills
+                </h2>
+                <div class="flex flex-wrap gap-2">
+                    <span class="skill-tag">ROS</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">IoT</span>
+                    <span class="skill-tag">OpenCV</span>
+                    <span class="skill-tag">Embedded Systems</span>
+                    <span class="skill-tag">Deep Learning</span>
+                    <span class="skill-tag">Solidworks</span>
+                    <span class="skill-tag">PCB Design</span>
+                </div>
+            </div>
+
+            <!-- Area 4: Resume Download -->
+            <div class="bento-card resume-card glass-card flex items-center justify-between p-6 cursor-pointer group"
+                id="download-resume">
+                <div>
+                    <h3 class="font-bold text-xl">Resume</h3>
+                    <p class="text-xs text-gray-400 group-hover:text-neon-cyan transition-colors">Download PDF</p>
+                </div>
+                <div
+                    class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-neon-pink group-hover:text-black transition-all">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Area 5: Projects -->
+            <div class="bento-card projects-card glass-card p-6">
+                <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                    <span class="w-2 h-8 bg-neon-cyan rounded-full"></span>
+                    Featured Projects
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Project 1 -->
+                    <div class="project-mini-card group cursor-pointer"
+                        onclick="window.open('https://github.com/unoanirban/pose_detection_python')">
+                        <div
+                            class="h-32 bg-black/40 rounded-xl mb-3 overflow-hidden border border-white/5 group-hover:border-neon-pink/50 transition-all relative">
+                            <img src="data/images/project_pose.png" alt="Body Pose Detection"
+                                class="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-500">
+                            <div
+                                class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-sm">
+                                <span class="bg-neon-pink text-black text-xs font-bold px-3 py-1 rounded-full">View
+                                    Code</span>
+                            </div>
+                        </div>
+                        <h4 class="font-bold group-hover:text-neon-pink transition-colors">Body Pose Detection</h4>
+                        <p class="text-xs text-gray-400">OpenCV & MediaPipe based real-time tracking.</p>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="project-mini-card group cursor-pointer"
+                        onclick="window.open('https://github.com/unoanirban/quadruped_simulation')">
+                        <div
+                            class="h-32 bg-black/40 rounded-xl mb-3 overflow-hidden border border-white/5 group-hover:border-neon-cyan/50 transition-all relative">
+                            <img src="data/images/project_quadruped.png" alt="Quadruped Robot Sim"
+                                class="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-500">
+                            <div
+                                class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-sm">
+                                <span class="bg-neon-cyan text-black text-xs font-bold px-3 py-1 rounded-full">View
+                                    Code</span>
+                            </div>
+                        </div>
+                        <h4 class="font-bold group-hover:text-neon-cyan transition-colors">Quadruped Robot Sim</h4>
+                        <p class="text-xs text-gray-400">Kinematic modeling for trot gait execution.</p>
+                    </div>
+
+                    <!-- Project 3 (Placeholder) -->
+                    <div class="project-mini-card group cursor-pointer" onclick="window.open('#')">
+                        <div
+                            class="h-32 bg-black/40 rounded-xl mb-3 overflow-hidden border border-white/5 group-hover:border-neon-pink/50 transition-all relative">
+                            <img src="data/images/project_future_1.png" alt="Project 3"
+                                class="w-full h-full object-cover opacity-70 group-hover:scale-110 transition-transform duration-500">
+                            <div
+                                class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-sm">
+                                <span class="bg-neon-pink text-black text-xs font-bold px-3 py-1 rounded-full">Coming
+                                    Soon</span>
+                            </div>
+                        </div>
+                        <h4 class="font-bold group-hover:text-neon-pink transition-colors">Project 3</h4>
+                        <p class="text-xs text-gray-400">New innovation in progress.</p>
+                    </div>
+
+                    <!-- Project 4 (Placeholder) -->
+                    <div class="project-mini-card group cursor-pointer" onclick="window.open('#')">
+                        <div
+                            class="h-32 bg-black/40 rounded-xl mb-3 overflow-hidden border border-white/5 group-hover:border-neon-cyan/50 transition-all relative">
+                            <img src="data/images/project_future_2.png" alt="Project 4"
+                                class="w-full h-full object-cover opacity-70 group-hover:scale-110 transition-transform duration-500">
+                            <div
+                                class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-sm">
+                                <span class="bg-neon-cyan text-black text-xs font-bold px-3 py-1 rounded-full">Coming
+                                    Soon</span>
+                            </div>
+                        </div>
+                        <h4 class="font-bold group-hover:text-neon-cyan transition-colors">Project 4</h4>
+                        <p class="text-xs text-gray-400">Future robotics showcase.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Area 6: Services -->
+            <div class="bento-card services-card glass-card p-6 flex flex-col">
+                <h2 class="text-xl font-bold mb-4 opacity-80">Services</h2>
+                <ul class="space-y-3 cursor-pointer z-10 relative">
+                    <li class="flex items-center gap-3 text-sm hover:text-neon-pink transition-colors"
+                        data-video="data/videos/pcb2.mp4">
+                        <span class="w-2 h-2 rounded-full bg-neon-pink"></span> Robotics Automation
+                    </li>
+                    <li class="flex items-center gap-3 text-sm hover:text-neon-purple transition-colors"
+                        data-video="data/videos/PCBdemo.mp4">
+                        <span class="w-2 h-2 rounded-full bg-neon-purple"></span> PCB Design
+                    </li>
+                    <li class="flex items-center gap-3 text-sm hover:text-neon-cyan transition-colors"
+                        data-video="iot.mp4">
+                        <span class="w-2 h-2 rounded-full bg-neon-cyan"></span> IoT Solutions
+                    </li>
+                    <li class="flex items-center gap-3 text-sm hover:text-white transition-colors" data-video="ML.mp4">
+                        <span class="w-2 h-2 rounded-full bg-white"></span> AI/ML Integration
+                    </li>
+                </ul>
+                <div class="mt-auto pt-4 relative min-h-[120px] rounded-lg overflow-hidden hidden"
+                    id="service-video-container">
+                    <video id="service-player" class="w-full h-full object-cover rounded-lg" loop muted playsinline>
+                        <source src="" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none">
+                    </div>
+                </div>
+                <div class="mt-auto text-xs text-gray-500 italic text-center" id="service-placeholder">
+                    Click an item to see in action
+                </div>
+            </div>
+
+            <!-- Area 7: Mail -->
+            <div class="bento-card mail-card glass-card p-6 flex flex-col justify-center items-center text-center group cursor-pointer"
+                onclick="window.location.href='mailto:anirbanmidya12@gmail.com'">
+                <div
+                    class="w-16 h-16 rounded-full bg-neon-pink/20 flex items-center justify-center mb-4 group-hover:bg-neon-pink group-hover:text-black transition-all">
+                    <svg class="w-8 h-8 text-neon-pink group-hover:text-black transition-colors" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold mb-2">Email Me</h2>
+                <p class="text-xs text-gray-400">anirbanmidya12@gmail.com</p>
+            </div>
+
+            <!-- Area 8: Schedule -->
+            <div class="bento-card schedule-card glass-card p-6 flex flex-col justify-center items-center text-center group cursor-pointer"
+                onclick="window.open('https://cal.com/unoanirban/15min', '_blank')">
+                <div
+                    class="w-16 h-16 rounded-full bg-neon-purple/20 flex items-center justify-center mb-4 group-hover:bg-neon-purple group-hover:text-black transition-all">
+                    <svg class="w-8 h-8 text-neon-purple group-hover:text-black transition-colors" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold mb-2">Schedule Call</h2>
+                <p class="text-xs text-gray-400">Book 15 mins</p>
+            </div>
+        </div>
+
+        </div>
+    </main>
+
+    <footer class="text-center py-6 text-xs text-gray-600">
+        © 2025 Anirban Midya. Built with ❤️ and Code.
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+
+</html>
