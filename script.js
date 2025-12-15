@@ -405,12 +405,34 @@ function initGalaxyBackground() {
         { selector: '.schedule-card', shape: 7 }   // Wave
     ];
 
+    // Identify assigned and unassigned shapes
+    const assignedShapeIndices = behaviors.map(b => b.shape);
+    const totalShapesCount = shapes.length;
+    const unassignedShapeIndices = [];
+    for (let i = 0; i < totalShapesCount; i++) {
+        if (!assignedShapeIndices.includes(i)) {
+            unassignedShapeIndices.push(i);
+        }
+    }
+
+    let leaveTimeout;
+
     behaviors.forEach(b => {
         const el = document.querySelector(b.selector);
         if (el) {
             el.addEventListener('mouseenter', () => {
+                if (leaveTimeout) clearTimeout(leaveTimeout); // Cancel pending blank space switch
                 console.log(`Hover on ${b.selector}: Switching to shape ${b.shape} (${shapes[b.shape] ? shapes[b.shape].name : 'Unknown'})`);
                 if (currentShapeIndex !== b.shape) updateTargets(b.shape);
+            });
+
+            el.addEventListener('mouseleave', () => {
+                // Delay to check if we are entering another card or truly into blank space
+                leaveTimeout = setTimeout(() => {
+                    const randomIndex = unassignedShapeIndices[Math.floor(Math.random() * unassignedShapeIndices.length)];
+                    console.log(`Hover on Blank Space: Switching to random unassigned shape ${randomIndex} (${shapes[randomIndex].name})`);
+                    updateTargets(randomIndex);
+                }, 100); // Short delay to prevent flickering when moving between cards
             });
         }
     });
