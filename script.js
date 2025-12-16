@@ -8,16 +8,45 @@ document.addEventListener('DOMContentLoaded', function () {
     initResumeDownload();
     initServicesVideo();
 
-    // Animate Bento Cards on Load
-    const cards = document.querySelectorAll('.bento-card');
-    cards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-            card.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, 100 * index);
+    // Animate Bento Cards on Scroll
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                // Enter Viewport
+                setTimeout(() => {
+                    entry.target.classList.remove('scroll-hidden');
+                    entry.target.classList.add('scroll-visible');
+
+                    // Clean up after animation to restore default hover transitions
+                    // Store timeout ID to clear it if we scroll out quickly
+                    const timeoutId = setTimeout(() => {
+                        entry.target.classList.remove('scroll-visible');
+                    }, 1000);
+                    entry.target.dataset.animTimeout = timeoutId;
+
+                }, index * 100);
+            } else {
+                // Exit Viewport - Reset animation
+                // Clear any pending cleanup timeout
+                if (entry.target.dataset.animTimeout) {
+                    clearTimeout(parseInt(entry.target.dataset.animTimeout));
+                }
+                entry.target.classList.remove('scroll-visible');
+                entry.target.classList.add('scroll-hidden');
+            }
+        });
+    }, observerOptions);
+
+    const cards = document.querySelectorAll('.bento-card, .project-mini-card');
+    cards.forEach(card => {
+        card.classList.add('scroll-hidden');
+        observer.observe(card);
     });
 });
 
